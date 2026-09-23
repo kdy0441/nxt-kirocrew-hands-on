@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- data-to-html: 카테고리/태그 비움, 항상 불러오기 해제(파일 전용 산출물, 아티팩트 미저장) -->
+<meta name="category" content="">
+<meta name="tags" content="">
+<meta name="always-load" content="false">
+<title>빛담 가을사진전(E04) 운영 질문 답변 보고서</title>
+<style>
+  :root { --line:#d0d7de; --head:#f3f4f6; --ok:#0a7d33; --no:#b42318; --warn:#9a6700; }
+  * { box-sizing:border-box; }
+  body { font-family:'Malgun Gothic','Segoe UI',sans-serif; margin:0; padding:32px; color:#1f2328; line-height:1.6; background:#fff; }
+  .wrap { max-width:900px; margin:0 auto; }
+  h1 { font-size:24px; margin:0 0 4px; }
+  h2 { font-size:18px; margin:28px 0 10px; padding-bottom:6px; border-bottom:2px solid var(--line); }
+  .notice { background:#fff8e5; border:1px solid #f2d98a; border-radius:6px; padding:8px 12px; font-size:13px; color:#664d03; margin:12px 0 20px; }
+  .meta { font-size:13px; color:#57606a; margin-bottom:8px; }
+  table { border-collapse:collapse; width:100%; margin:8px 0 4px; font-size:14px; }
+  th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:var(--head); font-weight:600; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .src { font-size:12px; color:#57606a; margin:2px 0 14px; }
+  .qcard { border:1px solid var(--line); border-radius:8px; padding:16px 18px; margin:14px 0; }
+  .qtitle { font-weight:700; font-size:16px; margin:0 0 8px; }
+  .ans { font-weight:600; margin:0 0 10px; }
+  .ans.ok { color:var(--ok); }
+  .ans.no { color:var(--no); }
+  .ans.warn { color:var(--warn); }
+  .verdict { background:#f6f8fa; border-left:3px solid #8c959f; padding:8px 12px; font-size:13px; margin-top:10px; border-radius:0 4px 4px 0; }
+  code { background:#f0f1f2; padding:1px 5px; border-radius:4px; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>빛담 가을사진전(E04) 운영 질문 답변 보고서</h1>
+  <div class="meta">미션 시점 2026-09-23 · 행사일 2026-09-28 · 장소 학생회관 전시실 14:00~17:00</div>
+  <div class="notice">AI플랫폼개발 수업용 가상 자료입니다. 실제 국민대학교 규정·인물·회계와 무관합니다.</div>
+
+  <h2>1. 집계 근거 (원본 CSV, 읽기 전용)</h2>
+  <table>
+    <tr><th>CSV</th><th>읽은 행 수</th><th>비고</th></tr>
+    <tr><td>참가신청.csv</td><td class="num">200</td><td>확정 140 / 대기 40 / 취소 20</td></tr>
+    <tr><td>회계내역.csv</td><td class="num">120</td><td>E01~E04 혼재, 기간 2026-07-01~09-22</td></tr>
+    <tr><td>구매계획.csv</td><td class="num">12</td><td>예정 비용(회계 거래에 미합산)</td></tr>
+  </table>
+  <div class="src">근거: ACCOUNT-01 제1조(기간·기초잔액), 제4조(구매계획 미합산) / CLUB-01 제1조(상태 구분). 원본 CSV·updates 원본·documents 복사본 모두 미수정.</div>
+
+  <h2>2. 세 질문에 대한 답변</h2>
+
+  <div class="qcard">
+    <p class="qtitle">Q1. 행사에 최대 몇 명까지 받을 수 있나?</p>
+    <p class="ans ok">→ 운영요원을 제외하고 최대 <b>180명</b></p>
+    <table>
+      <tr><th>문서 ID</th><th>조항/발급</th><th>적용 내용</th></tr>
+      <tr><td>CHANGE-SPACE-04</td><td>2026-09-23</td><td>승인 정원 160→180명, 운영요원 별도, APPROVAL-SPACE-04 정원 조항 대체(대상 E04·적용 9/28 명시)</td></tr>
+      <tr><td>RULE-02</td><td>제1·2조</td><td>정원=승인서 기준·운영요원 제외 / 대상·적용일 명시 변경 승인서로만 변경</td></tr>
+      <tr><td>APPROVAL-SPACE-04</td><td>2026-09-14</td><td>구 정원 160명 — 대체됨</td></tr>
+      <tr><td>NOTICE-04</td><td>홍보</td><td>홍보 정원 180명(홍보용, 승인서 아님)</td></tr>
+    </table>
+    <div class="verdict">판정: 9/23 발급·9/28 적용의 유효한 변경 승인서가 존재해 RULE-02 제2조 요건 충족 → 유효 승인 정원 <b>180명</b>.</div>
+  </div>
+
+  <div class="qcard">
+    <p class="qtitle">Q2. 대기자를 모두 확정해 준비해도 되나?</p>
+    <p class="ans no">→ <b>아니오.</b> 대기자 40명 일괄 자동 확정 불가</p>
+    <table>
+      <tr><th>문서 ID</th><th>조항</th><th>적용 내용</th></tr>
+      <tr><td>CLUB-01</td><td>제3조</td><td>정원·물품·재원 확인 후 신청 순서대로 전환, 전환 전 인원 미리 합산 금지</td></tr>
+      <tr><td>RULE-02</td><td>제3조</td><td>담당자 승인 후 명단 반영, AI 보고서만으로 상태 변경 안 함</td></tr>
+      <tr><td>CHANGE-SPACE-04</td><td>—</td><td>정원만 변경, 신청자 상태 자동 변경 안 함, 예산 증액 아님</td></tr>
+      <tr><td>APPROVAL-FUND-04</td><td>—</td><td>잔여 지원금 500,000원 미입금·현재 현금 미포함</td></tr>
+    </table>
+    <table>
+      <tr><th>준비 인원</th><th>총 예정비용</th><th>학교지원금</th><th>동아리회비</th></tr>
+      <tr><td>140명(확정)</td><td class="num">460,000</td><td class="num">256,000</td><td class="num">204,000</td></tr>
+      <tr><td>180명(정원 상한)</td><td class="num">560,000</td><td class="num">312,000</td><td class="num">248,000</td></tr>
+    </table>
+    <div class="verdict">판정: 정원 상한 180명이라 수용 여지는 있으나 40명 전원 확정은 담당자 승인·명단 반영, 물품·재원 확인, 신청 순서 전환을 만족해야 함. 180명 준비 시 예정비용이 460,000→560,000원으로 늘고 CHANGE-SPACE-04는 예산 증액이 아니므로 재원 확인이 선행. 순서대로 전환은 가능하나 '모두 자동 확정'은 불가.</div>
+  </div>
+
+  <div class="qcard">
+    <p class="qtitle">Q3. 외부 대학 학생의 참가가 허용되나?</p>
+    <p class="ans warn">→ <b>확인 필요.</b> 허용 여부를 판정할 근거 없음</p>
+    <table>
+      <tr><th>문서 ID</th><th>내용</th></tr>
+      <tr><td>MEMO-04</td><td>운영회의메모(2026-09-18): "외부인 참가 조건은 이 회의에서 결정하지 않았다" — 미결정</td></tr>
+      <tr><td>CLUB-01 / RULE-02 / 승인서 / NOTICE-04</td><td>참가 자격(교내/외부 구분)이나 외부인 허용·금지 조항이 어떤 문서에도 없음</td></tr>
+    </table>
+    <div class="verdict">판정: 허용·금지하는 유효한 규정이 없고 운영회의에서도 미결정 → '확인 필요'. 담당자 결정·별도 규정 확인 전까지 임의 허용 판단하지 않음.</div>
+  </div>
+
+  <h2>3. 내가 확인한 결과</h2>
+  <table>
+    <tr><th>항목</th><th>확인 내용</th></tr>
+    <tr><td>정원변경승인서 인덱싱</td><td>CHANGE-SPACE-04(<code>W04_09_정원변경승인서.md</code>)가 지식 소스 'W04 빛담 행사 기본 규정'에 인덱싱되어 재검색 정상 확인(항목 8→9)</td></tr>
+    <tr><td>원본 보존</td><td>updates 원본 + documents 복사본 모두 존재, data 폴더 CSV 3개 미수정</td></tr>
+    <tr><td>집계 재검증</td><td>aggregate_e04.py 재실행 exit 0, 확정140/대기40/취소20 재확인</td></tr>
+  </table>
+  <div class="src">산출 파일: build_qa.py(코드) · E04_질문답변.json(구조화 답변) · E04_집계.json(집계). data-to-html 기준: md·csv를 읽어 요약→표, 카테고리·태그 비움, 항상 불러오기 해제(파일 전용).</div>
+</div>
+</body>
+</html>

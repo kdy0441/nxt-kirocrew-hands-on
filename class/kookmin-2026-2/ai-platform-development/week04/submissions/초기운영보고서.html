@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>빛담 가을사진전(E04) 자료 요약 — 초기 운영 보고서</title>
+<style>
+  body { font-family: system-ui, "Malgun Gothic", sans-serif; color: #1a1a1a; line-height: 1.6; max-width: 900px; margin: 24px auto; padding: 0 16px; }
+  h1 { font-size: 22px; }
+  h3 { margin: 22px 0 8px; font-size: 16px; border-left: 4px solid #4a7dff; padding-left: 8px; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 16px; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 6px 9px; text-align: left; }
+  th { background: #f2f4f8; font-weight: 600; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .note { font-size: 13px; color: #666; margin: 4px 0 0; }
+  .warn { color: #c0392b; font-weight: 600; }
+  .disclaimer { font-size: 12px; color: #999; margin-bottom: 18px; }
+</style>
+</head>
+<body>
+<p class="disclaimer">AI플랫폼개발 수업용 가상 자료입니다. 실제 국민대학교 규정·인물·회계와 무관합니다.</p>
+<h1>빛담 가을사진전(E04) 자료 요약 — 초기 운영 보고서</h1>
+<p class="note">생성 도구: data-to-html 스킬 · 숫자 집계: Python · 기준일 2026-09-22</p>
+
+<h3>1. 문서 요약 (documents 8개)</h3>
+<table>
+<tr><th>문서 ID</th><th>제목</th><th>핵심 내용</th></tr>
+<tr><td>RULE-01</td><td>학교 지원금 지침</td><td>식음료 1인 4,000원 이내·실참석 대조, 기념품/개인선물/주류 제외, 미입금액은 현금에 미포함</td></tr>
+<tr><td>RULE-02</td><td>공간 이용 안내</td><td>정원=승인서 기준, 회의·홍보문구로 변경 불가, 유효한 변경 승인서만 정원 변경</td></tr>
+<tr><td>CLUB-01</td><td>동아리 운영 규칙</td><td>확정/대기/취소 구분, 구매 기본=확정 인원, 회비 기념품 1인 3,000원 이내, 원본 CSV 보존</td></tr>
+<tr><td>NOTICE-04</td><td>행사 안내</td><td>E04 2026-09-28 14:00~17:00 학생회관 전시실, 홍보 정원 180명(홍보용, 승인서 아님)</td></tr>
+<tr><td>APPROVAL-FUND-04</td><td>지원금 승인서</td><td>총한도 150만원, 1차 100만원(T091 입금), 잔여 50만원은 정산 후·현금 미포함</td></tr>
+<tr><td>APPROVAL-SPACE-04</td><td>장소 사용 승인서</td><td class="warn">승인 참가 정원 160명 (운영요원 별도) — 유효 기준</td></tr>
+<tr><td>MEMO-04</td><td>운영회의 메모</td><td>180명 변경 요청 예정(승인 기록 없음), 기념품 회비안 논의, 인화비 용도 재확인</td></tr>
+<tr><td>ACCOUNT-01</td><td>회계 집계 기준</td><td>기간 07-01~09-22, 기초 회비 80만원, E04 순지출=지출+환불지급−환불입금(수입 제외)</td></tr>
+</table>
+<p class="note"><b>정원 결론:</b> 승인 정원은 <b>160명</b>(APPROVAL-SPACE-04). 180명은 홍보 수치이며 변경 승인서가 없어 무효 (RULE-02 제2조).</p>
+
+<h3>2. 참가신청 (참가신청.csv — 200건, 전부 E04)</h3>
+<table>
+<tr><th>신청상태</th><th class="n">인원</th><th>비고</th></tr>
+<tr><td>확정</td><td class="n">140</td><td>물품 구매 기본 인원 (CLUB-01)</td></tr>
+<tr><td>대기</td><td class="n">40</td><td>전환 시 별도 계산, 확정에 미포함</td></tr>
+<tr><td>취소</td><td class="n">20</td><td>—</td></tr>
+<tr><th>합계</th><th class="n">200</th><th>확정 140명은 승인 정원 160명 이내</th></tr>
+</table>
+<p class="note">확정자 140명 중 — 인화체험 신청 105 / 미신청 35, 식음료 신청 112 / 받지않음 28</p>
+
+<h3>3. 회계내역 (회계내역.csv — 120건, E01~E04)</h3>
+<table>
+<tr><th>행사</th><th class="n">수입</th><th class="n">지출</th><th class="n">환불입금</th></tr>
+<tr><td>E01</td><td class="n">500,000</td><td class="n">199,000</td><td class="n">2,000</td></tr>
+<tr><td>E02</td><td class="n">500,000</td><td class="n">199,000</td><td class="n">2,000</td></tr>
+<tr><td>E03</td><td class="n">500,000</td><td class="n">199,000</td><td class="n">2,000</td></tr>
+<tr><td>E04</td><td class="n">1,280,000</td><td class="n">918,000</td><td class="n">22,000</td></tr>
+</table>
+<table>
+<tr><th>재원</th><th class="n">현재 잔액</th><th class="n">E04 순지출</th></tr>
+<tr><td>학교지원금</td><td class="n">250,000</td><td class="n">750,000</td></tr>
+<tr><td>동아리회비</td><td class="n">1,843,000</td><td class="n">146,000</td></tr>
+</table>
+<p class="note">현재 잔액 = 기초(지원금 0·회비 80만) + 수입 + 환불입금 − 지출 − 환불지급. E04 순지출은 수입 제외 (ACCOUNT-01 제3조).</p>
+
+<h3>4. 구매계획 (구매계획.csv — 12항목, 확정 140명 기준)</h3>
+<table>
+<tr><th>예정재원</th><th class="n">예정비용</th></tr>
+<tr><td>학교지원금</td><td class="n">256,000</td></tr>
+<tr><td>동아리회비</td><td class="n">204,000</td></tr>
+<tr><th>합계</th><th class="n">460,000</th></tr>
+</table>
+<p class="note">‘참가자’ 기준=확정 140명×계수, ‘고정’=계수 자체. 예정 비용이며 회계 거래·기지급 비용에 합산하지 않음 (ACCOUNT-01 제4·5조).</p>
+
+</body>
+</html>

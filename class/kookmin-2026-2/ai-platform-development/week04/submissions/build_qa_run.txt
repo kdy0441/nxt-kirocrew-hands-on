@@ -1,0 +1,3 @@
+참가상태별: {'확정': 140, '대기': 40, '취소': 20}
+구매계획 140명 총액: 460000 / 180명 총액: 560000
+JSON 저장: C:\Users\kdy04\nxt-kirocrew-hands-on\class\kookmin-2026-2\ai-platform-development\week04\submissions\E04_질문답변.json

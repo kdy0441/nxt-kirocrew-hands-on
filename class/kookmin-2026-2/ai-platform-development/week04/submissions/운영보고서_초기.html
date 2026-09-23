@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>빛담 가을사진전(E04) 운영 보고서 · 초기</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --line:#e5e7eb; --accent:#2563eb; --warn:#b45309; --warnbg:#fef3c7;
+    --ok:#047857; --okbg:#d1fae5; --head:#f1f5f9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;
+    line-height:1.6;padding:24px}
+  .wrap{max-width:980px;margin:0 auto}
+  header{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 26px;margin-bottom:18px}
+  h1{margin:0 0 4px;font-size:22px}
+  .sub{color:var(--muted);font-size:13px}
+  .disclaimer{background:var(--warnbg);color:var(--warn);border:1px solid #fcd34d;
+    border-radius:8px;padding:8px 12px;font-size:12.5px;margin-top:12px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 24px;margin-bottom:18px}
+  h2{font-size:16px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--accent);
+    display:inline-block}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+  th{background:var(--head);font-weight:600}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;
+    background:#eef2ff;color:var(--accent);margin-left:6px}
+  .badge-ok{background:var(--okbg);color:var(--ok);padding:2px 8px;border-radius:6px;font-size:12px}
+  .badge-warn{background:var(--warnbg);color:var(--warn);padding:2px 8px;border-radius:6px;font-size:12px}
+  ul{margin:6px 0 0;padding-left:20px}
+  li{margin:4px 0}
+  .src{font-size:12px;color:var(--muted)}
+  .src code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:11.5px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .stat{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .stat .k{font-size:12px;color:var(--muted)}
+  .stat .v{font-size:20px;font-weight:700;margin-top:2px}
+  footer{color:var(--muted);font-size:12px;text-align:center;padding:8px 0 4px}
+  .note{font-size:12.5px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>빛담 가을사진전(E04) 운영 보고서 <span class="tag">초기</span></h1>
+  <div class="sub">행사: 빛담 가을사진전과 인화 체험 · 2026-09-28 14:00~17:00 · 학생회관 전시실 · 운영 검토 기준일 2026-09-22</div>
+  <div class="disclaimer">⚠️ AI플랫폼개발 수업용 가상 자료입니다. 실제 국민대학교 규정·인물·회계와 무관합니다. 수치는 원본 CSV(참가신청 200행·회계내역 120행·구매계획 12행)를 Python으로 집계한 결과입니다.</div>
+</header>
+
+<!-- 1. 참가 현황 -->
+<section>
+  <h2>1. 참가 현황</h2>
+  <div class="grid">
+    <div class="stat"><div class="k">확정</div><div class="v">140</div></div>
+    <div class="stat"><div class="k">대기</div><div class="v">40</div></div>
+    <div class="stat"><div class="k">취소</div><div class="v">20</div></div>
+    <div class="stat"><div class="k">신청 총계</div><div class="v">200</div></div>
+  </div>
+  <table>
+    <tr><th>확정자(140명) 선택</th><th class="num">신청</th><th class="num">미신청 / 받지않음</th></tr>
+    <tr><td>인화체험</td><td class="num">105</td><td class="num">35 (미신청)</td></tr>
+    <tr><td>식음료</td><td class="num">112</td><td class="num">28 (받지않음)</td></tr>
+  </table>
+  <p class="src">근거: <code>참가신청.csv</code> · CLUB-01(동아리운영규칙) 제1조(확정/대기/취소), 제3조(대기자는 확정 인원에 미리 합산하지 않음)</p>
+</section>
+
+<!-- 2. 회계 잔액 / E04 순지출 -->
+<section>
+  <h2>2. 회계 잔액과 E04 순지출</h2>
+  <table>
+    <tr><th>구분</th><th class="num">학교지원금</th><th class="num">동아리회비</th></tr>
+    <tr><td>기초 잔액 (2026-07-01 직전)</td><td class="num">0</td><td class="num">800,000</td></tr>
+    <tr><td>현재 잔액 (전체 E01~E04)</td><td class="num">250,000</td><td class="num">1,843,000</td></tr>
+    <tr><td>E04 순지출</td><td class="num">750,000</td><td class="num">146,000</td></tr>
+  </table>
+  <p class="note">현재 잔액 = 기초 + 수입 + 환불입금 − 지출 − 환불지급 · E04 순지출 = 지출 + 환불지급 − 환불입금 (수입 제외). 학교지원금 E04: 지출 770,000 − 환불입금 20,000(T119) = 750,000.</p>
+  <p class="src">근거: <code>회계내역.csv</code> · ACCOUNT-01(회계기준) 제1조(기초잔액), 제2조(부호), 제3조(현재잔액·E04 순지출)</p>
+</section>
+
+<!-- 3. 정원 판정 -->
+<section>
+  <h2>3. 승인 정원 판정</h2>
+  <table>
+    <tr><th>값</th><th>근거 문서 / ID</th><th>성격</th></tr>
+    <tr><td class="num">160</td><td>장소사용승인서 · APPROVAL-SPACE-04 (2026-09-14)</td><td>구 승인 정원 (대체됨)</td></tr>
+    <tr><td class="num"><b>180</b></td><td>정원변경승인서 · CHANGE-SPACE-04 (2026-09-23)</td><td><span class="badge-ok">현재 유효 승인 정원</span></td></tr>
+    <tr><td class="num">180</td><td>행사안내 · NOTICE-04 (2026-09-10)</td><td>홍보 정원 (홍보용, 승인서 아님)</td></tr>
+  </table>
+  <p class="note">확정 140명은 유효 정원 180명 이내 <span class="badge-ok">이내 ✓</span>. CHANGE-SPACE-04는 APPROVAL-SPACE-04의 정원 조항만 대체하며, "지원금·예산 증액을 승인하는 문서가 아니고 신청자 상태를 자동 변경하지 않는다"고 명시.</p>
+  <p class="src">근거: APPROVAL-SPACE-04, CHANGE-SPACE-04, NOTICE-04</p>
+</section>
+
+<!-- 4. 구매계획 140/160/180 비교 -->
+<section>
+  <h2>4. 구매계획 비교 (140 · 160 · 180명)</h2>
+  <table>
+    <tr>
+      <th>시나리오</th>
+      <th class="num">총 예정비용</th>
+      <th class="num">학교지원금</th>
+      <th class="num">동아리회비</th>
+    </tr>
+    <tr><td>140명 (확정)</td><td class="num">460,000</td><td class="num">256,000</td><td class="num">204,000</td></tr>
+    <tr><td>160명 (구 정원)</td><td class="num">510,000</td><td class="num">284,000</td><td class="num">226,000</td></tr>
+    <tr><td>180명 (신 정원·홍보)</td><td class="num">560,000</td><td class="num">312,000</td><td class="num">248,000</td></tr>
+  </table>
+  <p class="note">산식(ACCOUNT-01 제5조): 수량기준 '참가자' = 확정/대상 인원 × 계수 × 단가, '고정' = 계수 × 단가. 고정 물품(P06~P12)은 인원과 무관하게 동일. 구매계획은 <b>예정 비용</b>이며 회계 거래·기지급에 합산하지 않음(제4조).</p>
+  <p class="src">근거: <code>구매계획.csv</code> · ACCOUNT-01 제4조·제5조</p>
+</section>
+
+<!-- 5. 가능한 운영안 -->
+<section>
+  <h2>5. 가능한 운영안</h2>
+  <table>
+    <tr><th>안</th><th>내용</th><th>재원·정원 검토</th></tr>
+    <tr>
+      <td><b>A. 확정 140명 그대로 운영</b></td>
+      <td>대기자 전환 없이 확정 인원으로 준비</td>
+      <td>예정 460,000원. 정원 180 이내. 가장 보수적·안전</td>
+    </tr>
+    <tr>
+      <td><b>B. 정원 180까지 대기자 전환</b></td>
+      <td>대기 40명을 신청 순서대로 전환(최대 180)</td>
+      <td>예정 560,000원. CHANGE-SPACE-04로 정원은 확보되나 <b>예산 증액 승인은 별도</b>. 재원·물품 확인 후 순차 전환(CLUB-01 제3조)</td>
+    </tr>
+    <tr>
+      <td><b>C. 부분 전환(140→160)</b></td>
+      <td>재원 여유만큼만 부분 전환</td>
+      <td>예정 510,000원. 잔여 지원금 미입금 상태 감안한 절충안</td>
+    </tr>
+  </table>
+  <p class="note">모든 전환안은 대기자를 확정 인원에 <b>미리 합산하지 않고</b>, 승인 정원·준비 물품·가용 재원을 함께 확인한 뒤 신청 순서대로 진행(CLUB-01 제3조).</p>
+</section>
+
+<!-- 6. 추가 확인 사항 -->
+<section>
+  <h2>6. 추가 확인 사항 (확인 필요)</h2>
+  <table>
+    <tr><th>거래_ID</th><th>내용</th><th class="num">금액</th><th>사유 · 근거</th></tr>
+    <tr><td>T094</td><td>참가 기념 열쇠고리(기념품)</td><td class="num">70,000</td><td><span class="badge-warn">지원 제외</span> RULE-01 제3조 (기념품은 학교지원금 대상 아님)</td></tr>
+    <tr><td>T095</td><td>인화비 (용도 미기재)</td><td class="num">50,000</td><td><span class="badge-warn">확인 필요</span> RULE-01 제4조 (용도 불명확)</td></tr>
+    <tr><td>T097</td><td>전시패널</td><td class="num">30,000</td><td><span class="badge-warn">확인 필요</span> RULE-01 제4조 (증빙 없음)</td></tr>
+  </table>
+  <ul>
+    <li>잔여 지원금 <b>500,000원은 미입금</b> — 현재 가용 현금에 포함하지 않음 (APPROVAL-FUND-04 / RULE-01 제5조).</li>
+    <li>정원 180 운영(안 B) 시 <b>예산 증액 승인 문서 필요</b> — CHANGE-SPACE-04는 정원만 변경, 예산 증액 아님.</li>
+    <li>대기자 전환 시 신청자 상태는 자동 변경되지 않으므로 <b>수동 전환·기록</b> 필요 (CHANGE-SPACE-04, CLUB-01 제3조·제4조).</li>
+  </ul>
+</section>
+
+<!-- 7. 판단 근거 문서 -->
+<section>
+  <h2>7. 판단에 사용한 문서 근거</h2>
+  <table>
+    <tr><th>문서 ID</th><th>문서명</th><th>사용한 조항 / 항목</th></tr>
+    <tr><td>NOTICE-04</td><td>행사안내</td><td>홍보 정원 180(홍보용)</td></tr>
+    <tr><td>APPROVAL-SPACE-04</td><td>장소사용승인서</td><td>구 승인 정원 160</td></tr>
+    <tr><td>CHANGE-SPACE-04</td><td>정원변경승인서</td><td>정원 160→180, SPACE-04 정원 조항 대체</td></tr>
+    <tr><td>APPROVAL-FUND-04</td><td>지원금승인서</td><td>총한도 1,500,000 / 1차 1,000,000(T091) / 잔여 500,000 미입금</td></tr>
+    <tr><td>RULE-01</td><td>지원금지침</td><td>제2조 대상, 제3조 제외(기념품), 제4조 증빙·용도, 제5조 자금구분</td></tr>
+    <tr><td>ACCOUNT-01</td><td>회계기준</td><td>제1조 기초잔액, 제2조 부호, 제3조 현재잔액·E04 순지출, 제4조 판단, 제5조 구매산식</td></tr>
+    <tr><td>CLUB-01</td><td>동아리운영규칙</td><td>제1조 확정/대기/취소, 제3조 대기자 전환, 제4조 기록</td></tr>
+  </table>
+  <p class="src">데이터 출처: <code>data/참가신청.csv</code>, <code>data/회계내역.csv</code>, <code>data/구매계획.csv</code> · 집계 산출물: <code>submissions/E04_집계.json</code></p>
+</section>
+
+<footer>빛담 가을사진전(E04) 운영 보고서 · 초기 · 생성 2026-09-23 · 수업용 가상 자료</footer>
+
+</div>
+</body>
+</html>
