@@ -1,112 +1,103 @@
-"""Combine per-warehouse intermediate files into result.json (2차 / run02).
+"""중간 파일(warehouse-a/b/c.json)을 모아 result.json과 report.md를 만든다.
 
-Reads partial-a.json, partial-b.json, partial-c.json (produced by task_a/b/c.py)
-and writes result.json following practice/출력형식.md.
+aggregate_a/b/c.py가 만든 창고별 중간 파일을 읽어 practice/출력형식.md 구조로
+result.json을 쓴다. 2차(run02) 기준을 사용한다:
+- low_stock_basis: "item_total" (전체 창고 품목 합계 기준)
+- threshold: 5 (수량이 이 값보다 작을 때 저재고)
 
-low_stock_basis is 'item_total': a product is low-stock when its combined
-quantity across ALL warehouses is below the threshold (5). This is the basis
-the provided checker (practice/tests/check_result.py) validates.
+제공 검사기(practice/tests/check_result.py)가 검사하는 기준과 동일하다.
+report.md의 모든 수치는 result 딕셔너리에서 그대로 렌더링해 JSON과 일치시킨다.
 """
+
 import json
 from pathlib import Path
 
 THRESHOLD = 5
-RUN_DIR = Path(__file__).resolve().parent
-PARTIAL_FILES = ["partial-a.json", "partial-b.json", "partial-c.json"]
+HERE = Path(__file__).resolve().parent
+# aggregate_a/b/c.py가 이 폴더에 저장한 중간 파일
+INTERMEDIATE_FILES = ['warehouse-a.json', 'warehouse-b.json', 'warehouse-c.json']
+DATA = HERE.parent.parent.parent / 'practice' / 'data'
 
 
-def load_partials():
-    partials = []
-    for name in PARTIAL_FILES:
-        with open(RUN_DIR / name, encoding="utf-8") as f:
-            partials.append(json.load(f))
-    return partials
+def load_intermediates():
+    parts = []
+    for name in INTERMEDIATE_FILES:
+        parts.append(json.loads((HERE / name).read_text(encoding='utf-8')))
+    return parts
 
 
-def build_result(partials):
-    source_files = sorted(p["source_file"] for p in partials)
-
+def build_result(parts):
     warehouse_totals = {}
     item_totals = {}
-
-    for p in partials:
-        warehouse_totals[p["warehouse"]] = int(p["total"])
-        for item, qty in p["items"].items():
+    for p in parts:
+        warehouse_totals[p['warehouse']] = int(p['total'])
+        for item, qty in p['items'].items():
             item_totals[item] = item_totals.get(item, 0) + int(qty)
 
     grand_total = sum(warehouse_totals.values())
 
-    # item_total basis: a product is low-stock when its total across all
-    # warehouses is below the threshold. No 'warehouse' field on these rows.
+    # 2차 기준: 전체 품목 합계가 threshold 미만인 품목. 품목명 오름차순.
     low_stock = [
-        {"item": item, "quantity": qty}
-        for item, qty in sorted(item_totals.items())
+        {'item': name, 'quantity': qty}
+        for name, qty in sorted(item_totals.items())
         if qty < THRESHOLD
     ]
 
+    # source_files: 실제 입력 파일 이름 목록(정렬).
+    source_files = sorted(p.name for p in DATA.glob('warehouse-*.md'))
+
     return {
-        "source_files": source_files,
-        "warehouse_totals": warehouse_totals,
-        "item_totals": item_totals,
-        "grand_total": int(grand_total),
-        "low_stock_basis": "item_total",
-        "threshold": THRESHOLD,
-        "low_stock": low_stock,
+        'source_files': source_files,
+        'warehouse_totals': warehouse_totals,
+        'item_totals': item_totals,
+        'grand_total': int(grand_total),
+        'low_stock_basis': 'item_total',
+        'threshold': THRESHOLD,
+        'low_stock': low_stock,
     }
 
 
 def write_report(result):
-    """Render report.md from the result dict so every figure matches result.json."""
-    lines = []
-    lines.append("# 창고 재고 집계 보고서 (2차)")
-    lines.append("")
-    lines.append(f"- 원본 파일: {', '.join(result['source_files'])}")
-    lines.append(f"- 저재고 기준(low_stock_basis): `{result['low_stock_basis']}` "
-                 f"(전체 창고 품목별 합계가 임계값 {result['threshold']} 미만)")
-    lines.append(f"- 전체 총수량(grand_total): **{result['grand_total']}**")
-    lines.append("")
-
-    lines.append("## 창고별 합계")
-    lines.append("")
-    lines.append("| 창고 | 합계 |")
-    lines.append("| --- | ---: |")
-    for wh, total in result["warehouse_totals"].items():
-        lines.append(f"| {wh} | {total} |")
-    lines.append("")
-
-    lines.append("## 품목별 총수량")
-    lines.append("")
-    lines.append("| 품목 | 총수량 |")
-    lines.append("| --- | ---: |")
-    for item, qty in result["item_totals"].items():
-        lines.append(f"| {item} | {qty} |")
-    lines.append("")
-
-    lines.append("## 저재고 목록")
-    lines.append("")
-    lines.append(f"전체 창고의 품목별 총수량이 {result['threshold']} 미만인 품목입니다.")
-    lines.append("")
-    if result["low_stock"]:
-        lines.append("| 품목 | 총수량 |")
-        lines.append("| --- | ---: |")
-        for row in result["low_stock"]:
+    lines = [
+        '# 창고 재고 집계 보고서',
+        '',
+        f"- 원본 파일: {', '.join(result['source_files'])}",
+        f"- 저재고 기준(low_stock_basis): `{result['low_stock_basis']}` "
+        f"(전체 품목 합계가 임계값 {result['threshold']} 미만)",
+        f"- 전체 총수량(grand_total): **{result['grand_total']}**",
+        '',
+        '## 창고별 합계',
+        '',
+        '| 창고 | 합계 |',
+        '| --- | ---: |',
+    ]
+    for wh, total in result['warehouse_totals'].items():
+        lines.append(f'| {wh} | {total} |')
+    lines += ['', '## 품목별 총수량', '', '| 품목 | 총수량 |', '| --- | ---: |']
+    for item, qty in result['item_totals'].items():
+        lines.append(f'| {item} | {qty} |')
+    lines += ['', '## 저재고 목록', '',
+              f"전체 품목 합계가 {result['threshold']} 미만인 항목입니다.", '']
+    if result['low_stock']:
+        lines += ['| 품목 | 총수량 |', '| --- | ---: |']
+        for row in result['low_stock']:
             lines.append(f"| {row['item']} | {row['quantity']} |")
     else:
-        lines.append("저재고 항목이 없습니다.")
-    lines.append("")
-
-    with open(RUN_DIR / "report.md", "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+        lines.append('저재고 항목이 없습니다.')
+    lines.append('')
+    (HERE / 'report.md').write_text('\n'.join(lines), encoding='utf-8')
 
 
 def main():
-    partials = load_partials()
-    result = build_result(partials)
-    with open(RUN_DIR / "result.json", "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+    parts = load_intermediates()
+    result = build_result(parts)
+    (HERE / 'result.json').write_text(
+        json.dumps(result, ensure_ascii=False, indent=2) + '\n',
+        encoding='utf-8',
+    )
     write_report(result)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

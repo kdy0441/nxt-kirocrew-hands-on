@@ -1,67 +1,50 @@
-"""Shared warehouse parser module.
+"""창고 재고 md 파서. check_result.py와 동일한 정규식 규칙을 사용한다.
 
-Reads a single warehouse-*.md file and returns a structured aggregate.
-Imported by the three per-warehouse tasks (task_a/b/c.py).
-
-Low-stock basis: warehouse_row (a row's quantity < 5).
+제공 검사기(practice/tests/check_result.py)와 동일하게:
+- 창고 제목: ^# 창고 (\\S+) 재고$
+- 품목 행:   ^\\|\\s*([a-zA-Z0-9_-]+)\\s*\\|\\s*(\\d+)\\s*\\|$
+제목 누락/중복, 품목 행 누락/중복이면 예외를 던진다.
+수량은 정수로 저장한다.
 """
 
-import os
 import re
+from pathlib import Path
 
-_HEADING_RE = re.compile(r"^# 창고 (\S+) 재고$")
-_ROW_RE = re.compile(r"^\|\s*([a-zA-Z0-9_-]+)\s*\|\s*(\d+)\s*\|$")
+HEADING = re.compile(r'^# 창고 (\S+) 재고$', re.M)
+ROW = re.compile(r'^\|\s*([a-zA-Z0-9_-]+)\s*\|\s*(\d+)\s*\|$', re.M)
 
 
 def parse_warehouse(path):
-    """Parse one warehouse-*.md file.
+    """warehouse-*.md 한 개를 읽어 (창고이름, {품목: 정수수량})를 반환한다.
 
-    Returns a dict:
-      {
-        "warehouse": <letter from the '# 창고 X 재고' heading>,
-        "source_file": <basename of path>,
-        "total": <int, sum of all quantities>,
-        "items": {item: int qty, ...},
-        "low_stock_rows": [{"item": ..., "quantity": int}, ...]  # qty < 5
-      }
-    Quantities are stored as ints, not strings.
+    검사기와 동일한 규칙으로 파싱하며, 제목이 없거나 품목 행이 없거나
+    창고/품목이 중복되면 ValueError를 던진다.
     """
-    warehouse = None
-    items = {}
-    low_stock_rows = []
+    path = Path(path)
+    source = path.read_text(encoding='utf-8')
 
-    with open(path, encoding="utf-8") as fh:
-        for line in fh:
-            line = line.rstrip("\n")
+    heading = HEADING.search(source)
+    if not heading:
+        raise ValueError('창고 제목 누락: ' + path.name)
+    # 한 파일에 제목이 여럿이면 중복으로 본다.
+    if len(HEADING.findall(source)) != 1:
+        raise ValueError('창고 제목 중복: ' + path.name)
+    warehouse_name = heading[1]
 
-            heading = _HEADING_RE.match(line)
-            if heading:
-                warehouse = heading.group(1)
-                continue
+    rows = ROW.findall(source)
+    if not rows or len({name for name, _ in rows}) != len(rows):
+        raise ValueError('품목 행 누락 또는 중복: ' + path.name)
 
-            row = _ROW_RE.match(line)
-            if not row:
-                # Skips the header row (| 품목 | 수량 |) and the
-                # separator row (|---|---:|) and any blank lines.
-                continue
-
-            item = row.group(1)
-            qty = int(row.group(2))
-            items[item] = items.get(item, 0) + qty
-            if qty < 5:
-                low_stock_rows.append({"item": item, "quantity": qty})
-
-    return {
-        "warehouse": warehouse,
-        "source_file": os.path.basename(path),
-        "total": sum(items.values()),
-        "items": items,
-        "low_stock_rows": low_stock_rows,
-    }
+    items = {name: int(qty) for name, qty in rows}
+    return warehouse_name, items
 
 
-if __name__ == "__main__":
-    import json
+def warehouse_total(items):
+    """품목별 수량 딕셔너리의 정수 합계를 반환한다."""
+    return sum(items.values())
+
+
+if __name__ == '__main__':
     import sys
-
-    print(json.dumps(parse_warehouse(sys.argv[1]), ensure_ascii=False, indent=2))
+    name, items = parse_warehouse(sys.argv[1])
+    print(name, items, 'total=', warehouse_total(items))

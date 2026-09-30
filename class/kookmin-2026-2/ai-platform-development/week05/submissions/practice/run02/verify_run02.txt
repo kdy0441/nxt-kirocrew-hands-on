@@ -1,0 +1,40 @@
+wrote warehouse-a.json {'warehouse': 'A', 'total': 22, 'items': {'mug': 12, 'bottle': 3, 'sensor': 7}}
+wrote warehouse-b.json {'warehouse': 'B', 'total': 16, 'items': {'mug': 5, 'bottle': 9, 'hub': 2}}
+wrote warehouse-c.json {'warehouse': 'C', 'total': 16, 'items': {'sensor': 4, 'hub': 11, 'cable': 1}}
+{
+  "source_files": [
+    "warehouse-a.md",
+    "warehouse-b.md",
+    "warehouse-c.md"
+  ],
+  "warehouse_totals": {
+    "A": 22,
+    "B": 16,
+    "C": 16
+  },
+  "item_totals": {
+    "mug": 17,
+    "bottle": 12,
+    "sensor": 11,
+    "hub": 13,
+    "cable": 1
+  },
+  "grand_total": 54,
+  "low_stock_basis": "item_total",
+  "threshold": 5,
+  "low_stock": [
+    {
+      "item": "cable",
+      "quantity": 1
+    }
+  ]
+}
+통과 | FIELDS
+통과 | source_files
+통과 | warehouse_totals
+통과 | item_totals
+통과 | grand_total
+통과 | low_stock_basis
+통과 | threshold
+통과 | low_stock
+범위: JSON 수치·구조. 원본 보존·보고서·실행 이력·최종 저장은 별도 확인.

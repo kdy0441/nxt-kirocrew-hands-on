@@ -1,9 +1,0 @@
-통과 | FIELDS
-통과 | source_files
-통과 | warehouse_totals
-통과 | item_totals
-통과 | grand_total
-통과 | low_stock_basis
-통과 | threshold
-통과 | low_stock
-범위: JSON 수치·구조. 원본 보존·보고서·실행 이력·최종 저장은 별도 확인.
