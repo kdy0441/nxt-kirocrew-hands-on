@@ -1,0 +1,17 @@
+{
+  "warehouse": "A",
+  "source_file": "warehouse-a.md",
+  "total": 22,
+  "items": {
+    "mug": 12,
+    "bottle": 3,
+    "sensor": 7
+  },
+  "low_stock": [
+    {
+      "item": "bottle",
+      "quantity": 3,
+      "warehouse": "A"
+    }
+  ]
+}
